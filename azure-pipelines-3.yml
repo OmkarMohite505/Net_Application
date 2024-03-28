@@ -40,4 +40,4 @@ stages:
       inputs:
         azureSubscription: 'Visual Studio Enterprise Subscription – MPN(1)(55a5bd6f-9738-41a7-b166-687f831b4704)'
         appName: 'net-app2'
-        containers: 'omkarmohitenetapplication:$(Build.BuildId)'
+        containers: 'netangulartrial.azurecr.io/omkarmohitenetapplication:$(Build.BuildId)'
