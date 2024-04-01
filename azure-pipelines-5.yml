@@ -1,0 +1,37 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
+  
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Visual Studio Enterprise Subscription – MPN (55a5bd6f-9738-41a7-b166-687f831b4704)'
+    appType: 'webAppLinux'
+    WebAppName: 'net-code2'
+    deployToSlotOrASE: true
+    ResourceGroupName: 'Docker_Apps'
+    SlotName: 'Dev'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    
+- task: AzureAppServiceSettings@1
+  inputs:
+    azureSubscription: 'Visual Studio Enterprise Subscription – MPN (55a5bd6f-9738-41a7-b166-687f831b4704)'
+    appName: 'net-code2'
+    resourceGroupName: 'Docker_Apps'
+    slotName: 'Dev'
