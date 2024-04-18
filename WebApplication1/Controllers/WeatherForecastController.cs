@@ -25,5 +25,10 @@ namespace WebApplication1.Controllers
             string content = System.IO.File.ReadAllText(fullPath);
             return Ok(content);
         }
+         [HttpGet(Name = "health")]
+        public IActionResult Get()
+        {
+            return Ok("Success");
+        }
     }
 }
