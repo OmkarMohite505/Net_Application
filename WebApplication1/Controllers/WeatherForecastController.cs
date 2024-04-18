@@ -26,7 +26,7 @@ namespace WebApplication1.Controllers
             return Ok(content);
         }
          [HttpGet(Name = "health")]
-        public IActionResult Get()
+        public IActionResult Get1()
         {
             return Ok("Success");
         }
