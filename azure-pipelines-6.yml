@@ -1,0 +1,62 @@
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- main
+
+resources:
+- repo: self
+
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: '45e772e2-a7ae-42a3-b59c-9f6434451260'
+  imageRepository: 'securefileimage'
+  containerRegistry: 'netangulartrial.azurecr.io'
+  dockerfilePath: '$(Build.SourcesDirectory)/WebApplication1/Dockerfile'
+  tag: '$(Build.BuildId)'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  displayName: Build and push stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: DownloadSecureFile@1
+      inputs:
+        secureFile: 'GitCommands.txt'
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Agent.TempDirectory)'
+        Contents: 'GitCommands.txt'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)/WebApplication1'
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Agent.TempDirectory)'
+        Contents: 'GitCommands.txt'
+        TargetFolder: '$(Build.SourcesDirectory)/WebApplication1'
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)'  # Include files from $(Build.SourcesDirectory)
+        Contents: '**'  # Copy all files and folders recursively
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
