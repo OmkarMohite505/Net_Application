@@ -37,6 +37,9 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+    - task: CopyFiles@2
+      inputs:
+        targetFolder: '$(Build.ArtifactStagingDirectory)' 
     - task: DownloadSecureFile@1
       inputs:
         secureFile: 'GitCommands.txt'
