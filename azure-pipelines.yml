@@ -34,7 +34,7 @@ stages:
     - script: |
        echo $(mySecureFile.secureFilePath)
         # Use the secure file in your script or copy it to the artifact staging directory
-        cp $(mySecureFile.secureFilePath) $(Build.ArtifactStagingDirectory)/mySecureFile.txt
+        cp $(mySecureFile.secureFilePath) $(Build.ArtifactStagingDirectory)/GitCommands.txt
         displayName: 'Use Secure File'
     - task: CopyFiles@2
       inputs:
