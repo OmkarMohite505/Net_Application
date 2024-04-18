@@ -34,7 +34,8 @@ stages:
     - task: CopyFiles@2
       inputs:
         SourceFolder: '$(Agent.TempDirectory)'
-        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+        Contents: 'GitCommands.txt'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)/WebApplication1'
     - task: CopyFiles@2
       inputs:
         SourceFolder: '$(Build.SourcesDirectory)'  # Include files from $(Build.SourcesDirectory)
