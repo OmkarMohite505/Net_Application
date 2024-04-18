@@ -12,5 +12,20 @@ namespace WebApplication1.Controllers
         {
             return Ok("Success message from Docker Image");
         }
+          [HttpGet("get_file")]
+  public IActionResult GetFile()
+  {
+      try
+      {
+          string fullPath = Path.Combine("GitCommands.txt");
+          string content = System.IO.File.ReadAllText(fullPath);
+          return Ok(content);
+      }
+      catch (Exception ex)
+      {
+
+          return Ok(ex.Message);
+      }
+  }
     }
 }
