@@ -31,14 +31,11 @@ stages:
     - task: DownloadSecureFile@1
       inputs:
         secureFile: 'GitCommands.txt'
-    - script: |
-       echo $(mySecureFile.secureFilePath)
-        # Use the secure file in your script or copy it to the artifact staging directory
-        cp $(mySecureFile.secureFilePath) $(Build.ArtifactStagingDirectory)/GitCommands.txt
-        displayName: 'Use Secure File'
     - task: CopyFiles@2
       inputs:
-        targetFolder: '$(Build.ArtifactStagingDirectory)' 
+        SourceFolder: '$(Agent.TempDirectory)'
+        Contents: secureFile
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
