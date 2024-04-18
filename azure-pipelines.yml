@@ -34,7 +34,6 @@ stages:
     - task: CopyFiles@2
       inputs:
         SourceFolder: '$(Agent.TempDirectory)'
-        Contents: secureFile
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
     - task: PublishBuildArtifacts@1
       inputs:
