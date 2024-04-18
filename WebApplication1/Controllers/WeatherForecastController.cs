@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-
+using System.IO;
 namespace WebApplication1.Controllers
 {
     [ApiController]
@@ -19,15 +19,11 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public IActionResult Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            string fullPath = Path.Combine("GitCommands.txt");
+            string content = System.IO.File.ReadAllText(fullPath);
+            return Ok(content);
         }
     }
 }
