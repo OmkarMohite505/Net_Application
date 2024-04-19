@@ -64,7 +64,7 @@ stages:
       inputs:
         containerRegistry: $(dockerRegistryServiceConnection)
         repository: 'securefiledrop'
-        command: 'build'
+        command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         context: '$(Pipeline.Workspace)/drop'
         tags: 'latest'
